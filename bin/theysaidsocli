@@ -2,4 +2,5 @@
 require "theysaidsocli"
 
 ct = Theysaidsocli::QuoteFetcher.new
-ct.random
+qod = ct.qod
+puts qod
