@@ -31,9 +31,10 @@ You can run in your command line:
 - `theysaidso -cat` : gets you all the available quote categories
 - `theysaidso -cat life` : gets you a quote from the "life" category
 
-The API is limited so you can make 10requests per hour.
 
-# TODO:
+### TODO:
+
+The API is rate-limited so with the free version you can make 10requests per hour.
 I doubt people will need more than that, but I will implement at some point passing an API key to get unlimited quotes
 
 ## Development
