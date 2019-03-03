@@ -5,6 +5,7 @@ Powered by:
 
 
 This is a simple CLI gem to get quotes from the TheySaidSo API.
+If you need some inspiration during your day, just pick your daily quote from your command line!
 
 ## Installation
 
