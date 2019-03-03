@@ -2,10 +2,11 @@ require "httparty"
 
 RSpec.describe Theysaidsocli do
 
+  let(:quote_fetcher) { Theysaidsocli::QuoteFetcher.new }
   let(:qod) { "The things you learn in maturity aren’t simple things such as acquiring information and skills. You learn not to engage in self-destructive behavior. You learn not to burn up energy in anxiety. You discover how to manage your tensions. You learn that self-pity and resentment are among the most toxic of drugs. You find that the world loves talent but pays off on character." }
 
   let(:response_body) {  double("Response", code: code) }
-  let(:http_party_response) { instance_double("HTTParty::Response", response: response_body, to_s: qod_response)}
+  let(:http_party_response) { instance_double("HTTParty::Response", response: response_body, to_s: string_response)}
 
   let(:qod_response) do
     '{
@@ -36,30 +37,82 @@ RSpec.describe Theysaidsocli do
     }'
   end
 
+  let(:categories_hash) do
+    {
+        "inspire": "Inspiring Quote of the day",
+        "management": "Management Quote of the day",
+        "sports": "Sports Quote of the day",
+        "life": "Quote of the day about life",
+        "funny": "Funny Quote of the day",
+        "love": "Quote of the day about Love",
+        "art": "Art quote of the day ",
+        "students": "Quote of the day for students"
+    }
+  end
+
+  let(:categories_response) do
+    '{
+        "success": {
+            "total": 8
+        },
+        "contents": {
+            "categories": {
+                "inspire": "Inspiring Quote of the day",
+                "management": "Management Quote of the day",
+                "sports": "Sports Quote of the day",
+                "life": "Quote of the day about life",
+                "funny": "Funny Quote of the day",
+                "love": "Quote of the day about Love",
+                "art": "Art quote of the day ",
+                "students": "Quote of the day for students"
+            },
+            "copyright": "2017-19 http://theysaidso.com"
+        }
+    }'
+  end
+
   it "has a version number" do
     expect(Theysaidsocli::VERSION).not_to be nil
   end
 
-  context "with successful return" do
+  context "with qod successful response" do
     let(:code) { "200" }
+    let(:string_response) { qod_response }
 
     it "prints the quote of the day" do
       expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL).and_return(http_party_response)
-      ct = Theysaidsocli::QuoteFetcher.new
-      expect(ct.qod).to eq(qod)
+      expect(quote_fetcher.qod).to eq(qod)
     end
   end
 
-  context "with rate limit" do
+  context "with qod rate limit" do
     let(:code) { "429" }
+    let(:string_response) { qod_response }
 
-    it "with rate limit it returns appropriate error" do
+    it "with rate limit it raises appropriate error" do
       expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL).and_return(http_party_response)
-      ct = Theysaidsocli::QuoteFetcher.new
-      expect(ct.qod).to eq("You asked for too many quotes... Try again in an hour")
+      expect{ quote_fetcher.qod }.to raise_error(Theysaidsocli::RateLimitError)
     end
   end
 
+  context "with categories successful response" do
+    let(:code) { "200" }
+    let(:string_response) { categories_response }
 
+    it "returns the category hash" do
+      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::CATEGORIES_URL).and_return(http_party_response)
+      expect(quote_fetcher.categories).to eq(categories_hash)
+    end
+  end
+
+  context "with qod rate limit" do
+    let(:code) { "429" }
+    let(:string_response) { categories_response }
+
+    it "with rate limit it raises appropriate error" do
+      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL).and_return(http_party_response)
+      expect{ quote_fetcher.qod }.to raise_error(Theysaidsocli::RateLimitError)
+    end
+  end
 end
 

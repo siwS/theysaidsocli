@@ -2,35 +2,47 @@ require_relative "theysaidsocli/version"
 require "httparty"
 
 module Theysaidsocli
-  class Error < StandardError; end
+
+  class RateLimitError < StandardError; end
 
   class QuoteFetcher
 
     QOD_URL = "http://quotes.rest/qod.json"
-    RANDOM_QUOTE_URL = "http://quotes.rest/quote/random.json"
+    CATEGORIES_URL = "http://quotes.rest/qod/categories.json"
+    QOD_BY_CATEGORY_URL = "http://quotes.rest/qod.json?category="
 
-    def random
-      puts "a random quote"
+    def categories
+      categories_response = HTTParty.get(CATEGORIES_URL)
+      if categories_response.response.code == "429"
+        raise RateLimitError
+      end
+      parse_contents(categories_response)[:categories]
     end
 
     def qod
       qod_response = HTTParty.get(QOD_URL)
       if qod_response.response.code == "429"
-        return "You asked for too many quotes... Try again in an hour"
+        raise RateLimitError
       end
 
-      parse_quote(qod_response)
+      parse_contents(qod_response)[:quotes][0][:quote]
+    end
+
+    def qod_by_category(category)
+      qod_response = HTTParty.get(QOD_BY_CATEGORY_URL + category)
+      if qod_response.response.code == "429"
+        raise RateLimitError
+      end
+
+      parse_contents(qod_response)[:quotes][0][:quote]
     end
 
     private
 
-    def parse_quote(qod_response)
+    def parse_contents(qod_response)
       json_object = JSON.parse(qod_response.to_s, :symbolize_names => true)
-      json_object[:contents][:quotes][0][:quote]
+      json_object[:contents]
     end
-
-
   end
 
-  QuoteFetcher.new.qod
 end
