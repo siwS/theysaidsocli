@@ -13,6 +13,8 @@ unless entered_ARGV
         puts "You are making too many requests... Try again in an hour."
     end
 end
+      if qod_response.response.code == "429"
+
 
 case ARGV[0]
 

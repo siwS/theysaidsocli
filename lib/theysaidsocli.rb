@@ -21,7 +21,6 @@ module Theysaidsocli
 
     def qod
       qod_response = HTTParty.get(QOD_URL)
-      if qod_response.response.code == "429"
         raise RateLimitError
       end
 
