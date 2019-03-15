@@ -35,7 +35,7 @@ You can run in your command line:
 ### TODO:
 
 The API is rate-limited so with the free version you can make 10requests per hour.
-I doubt people will need more than that, but I will implement at some point passing an API key to get unlimited quotes
+I doubt people will need more than that in a CLI, but I will implement at some point passing an API key to get unlimited quotes
 
 ## Development
 
