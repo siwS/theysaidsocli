@@ -50,6 +50,8 @@ RSpec.describe Theysaidsocli do
     }
   end
 
+  let(:author) { "John Gardner" }
+
   let(:categories_response) do
     '{
         "success": {
@@ -78,20 +80,32 @@ RSpec.describe Theysaidsocli do
   context "with qod successful response" do
     let(:code) { "200" }
     let(:string_response) { qod_response }
+    let(:category) { "life" }
 
     it "prints the quote of the day" do
       expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL).and_return(http_party_response)
-      expect(quote_fetcher.qod).to eq(qod)
+      expect(quote_fetcher.qod).to eq([qod, author])
+    end
+
+    it "prints the qod for a given category" do
+      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL+"?category=#{category}").and_return(http_party_response)
+      expect(quote_fetcher.qod(category)).to eq([qod, author])
     end
   end
 
   context "with qod rate limit" do
     let(:code) { "429" }
     let(:string_response) { qod_response }
+    let(:category) { "life" }
 
     it "with rate limit it raises appropriate error" do
       expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL).and_return(http_party_response)
       expect{ quote_fetcher.qod }.to raise_error(Theysaidsocli::RateLimitError)
+    end
+
+    it "with rate limit it raises appropriate error" do
+      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL+"?category=#{category}").and_return(http_party_response)
+      expect{ quote_fetcher.qod(category) }.to raise_error(Theysaidsocli::RateLimitError)
     end
   end
 

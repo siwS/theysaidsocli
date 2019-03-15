@@ -9,7 +9,6 @@ module Theysaidsocli
 
     QOD_URL = "http://quotes.rest/qod.json"
     CATEGORIES_URL = "http://quotes.rest/qod/categories.json"
-    QOD_BY_CATEGORY_URL = "http://quotes.rest/qod.json?category="
 
     def categories
       categories_response = HTTParty.get(CATEGORIES_URL)
@@ -19,22 +18,17 @@ module Theysaidsocli
       parse_contents(categories_response)[:categories]
     end
 
-    def qod
-      qod_response = HTTParty.get(QOD_URL)
+    def qod(category = nil)
+      url = QOD_URL
+      url += "?category=#{category}" if category
+
+      qod_response = HTTParty.get(url)
       if qod_response.response.code == "429"
         raise RateLimitError
       end
 
-      parse_contents(qod_response)[:quotes][0][:quote]
-    end
-
-    def qod_by_category(category)
-      qod_response = HTTParty.get(QOD_BY_CATEGORY_URL + category)
-      if qod_response.response.code == "429"
-        raise RateLimitError
-      end
-
-      parse_contents(qod_response)[:quotes][0][:quote]
+      response = parse_contents(qod_response)[:quotes][0]
+      [response[:quote], response[:author]]
     end
 
     private

@@ -5,38 +5,46 @@ ct = Theysaidsocli::QuoteFetcher.new
 
 entered_ARGV = ARGV.length > 0;
 
-unless entered_ARGV
-    begin
-        qod = ct.qod
-        puts qod
-    rescue Theysaidsocli::RateLimitError
-        puts "You are making too many requests... Try again in an hour."
-    end
+def print_quote(qod, author)
+    print_text = "#{author} said: #{qod}"
+
+    puts "*" * (print_text.size + 4)
+    puts "| #{print_text} |"
+    puts "*" * (print_text.size + 4)
 end
 
-case ARGV[0]
-
-when "-h"
-    puts "Hello! Welcome to the help menu of the TheySaySo cli."
-    puts "             | Get the quote of the day"
-    puts "  -cat       | Get quote categories"
-    puts "  -cat <Cat> | Pick a quote from a specific category"
-    exit
-when "-cat"
-    begin
-        if ARGV[1]
-            qod = ct.qod_by_category(ARGV[1])
-            puts qod
-            return
-        end
-
-        categories = ct.categories
-        puts "Available categories:"
-
-        categories.each do |key, value|
-            puts "#{key}: '#{value}'"
-        end
-    rescue Theysaidsocli::RateLimitError
-        puts "You are making too many requests... Try again in an hour."
+begin
+    unless entered_ARGV
+        qod, author = ct.qod
+        print_quote(qod, author)
+        return
     end
+
+    case ARGV[0]
+
+        when "-h"
+            puts "Hello! Welcome to the help menu of the TheySaySo cli."
+            puts "             | Get the quote of the day"
+            puts "  -cat       | Get quote categories"
+            puts "  -cat <Cat> | Pick a quote from a specific category"
+            exit
+        when "-cat"
+
+            if ARGV[1]
+                qod, author = ct.qod(ARGV[1])
+                print_quote(qod, author)
+                return
+            end
+
+            categories = ct.categories
+            puts "Available categories:"
+
+            categories.each do |key, value|
+                puts "#{key}: '#{value}'"
+        end
+    end
+
+rescue Theysaidsocli::RateLimitError
+    puts "You are making too many requests... Try again in an hour."
 end
+
