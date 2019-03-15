@@ -12,26 +12,24 @@ module Theysaidsocli
 
     def categories
       categories_response = HTTParty.get(CATEGORIES_URL)
-      if categories_response.response.code == "429"
-        raise RateLimitError
-      end
+      raise RateLimitError if rate_limited?(categories_response)
+
       parse_contents(categories_response)[:categories]
     end
 
     def qod(category = nil)
-      url = QOD_URL
-      url += "?category=#{category}" if category
-
-      qod_response = HTTParty.get(url)
-      if qod_response.response.code == "429"
-        raise RateLimitError
-      end
+      qod_response = HTTParty.get(category ? QOD_URL+"?category=#{category}" : QOD_URL)
+      raise RateLimitError if rate_limited?(qod_response)
 
       response = parse_contents(qod_response)[:quotes][0]
       [response[:quote], response[:author]]
     end
 
     private
+
+    def rate_limited?(response)
+      response.response.code == "429"
+    end
 
     def parse_contents(qod_response)
       json_object = JSON.parse(qod_response.to_s, :symbolize_names => true)
