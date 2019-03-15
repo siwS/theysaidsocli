@@ -1,8 +1,11 @@
 # Theysaidsocli
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/theysaidsocli`. To experiment with that code, run `bin/console` for an interactive prompt.
+Powered by:
+<span style="z-index:50;font-size:0.9em;"><img src="https://theysaidso.com/branding/theysaidso.png" height="20" width="20" alt="theysaidso.com"/><a href="https://theysaidso.com" title="Powered by quotes from theysaidso.com" style="color: #9fcc25; margin-left: 4px; vertical-align: middle;">theysaidso.com</a></span>
 
-TODO: Delete this and the text above, and describe your gem
+
+This is a simple CLI gem to get quotes from the TheySaidSo API.
+If you need some inspiration during your day, just pick your daily quote from your command line!
 
 ## Installation
 
@@ -22,7 +25,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You can run in your command line:
+
+- `theysaidso` : gets you the Quote of the day!
+- `theysaidso -cat` : gets you all the available quote categories
+- `theysaidso -cat life` : gets you a quote from the "life" category
+
+
+### TODO:
+
+The API is rate-limited so with the free version you can make 10requests per hour.
+I doubt people will need more than that, but I will implement at some point passing an API key to get unlimited quotes
 
 ## Development
 
@@ -41,3 +54,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the Theysaidsocli project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/theysaidsocli/blob/master/CODE_OF_CONDUCT.md).
+
+
