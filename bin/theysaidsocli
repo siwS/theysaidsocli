@@ -5,8 +5,8 @@ ct = Theysaidsocli::QuoteFetcher.new
 
 entered_ARGV = ARGV.length > 0;
 
-def print_quote(qod, author)
-    print_text = "#{author} said: #{qod}"
+def print_quote(qod)
+    print_text = "#{qod.author} said: #{qod.quote}"
 
     puts "*" * (print_text.size + 4)
     puts "| #{print_text} |"
@@ -15,8 +15,8 @@ end
 
 begin
     unless entered_ARGV
-        qod, author = ct.qod
-        print_quote(qod, author)
+        qod = ct.qod
+        print_quote(qod)
         return
     end
 
@@ -31,8 +31,8 @@ begin
         when "-cat"
 
             if ARGV[1]
-                qod, author = ct.qod(ARGV[1])
-                print_quote(qod, author)
+                qod = ct.qod(ARGV[1])
+                print_quote(qod)
                 return
             end
 
@@ -46,5 +46,8 @@ begin
 
 rescue Theysaidsocli::RateLimitError
     puts "You are making too many requests... Try again in an hour."
+rescue Theysaidsocli::NotFoundError
+    puts "No results were found with the terms used. Try again with a different term.."
 end
+
 

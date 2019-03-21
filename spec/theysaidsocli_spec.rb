@@ -1,4 +1,5 @@
 require "httparty"
+require_relative "../lib/theysaidsocli"
 
 RSpec.describe Theysaidsocli do
 
@@ -6,35 +7,35 @@ RSpec.describe Theysaidsocli do
   let(:qod) { "The things you learn in maturity aren’t simple things such as acquiring information and skills. You learn not to engage in self-destructive behavior. You learn not to burn up energy in anxiety. You discover how to manage your tensions. You learn that self-pity and resentment are among the most toxic of drugs. You find that the world loves talent but pays off on character." }
 
   let(:response_body) {  double("Response", code: code) }
-  let(:http_party_response) { instance_double("HTTParty::Response", response: response_body, to_s: string_response)}
+  let(:http_party_response) { instance_double("HTTParty::Response", response: response_body, to_s: string_response.to_json)}
+
+  let(:author) { "John Gardner" }
+  let(:length) { "381" }
+  let(:tags) { %w[ character, inspire, maturity ] }
+  let(:qod_category) { "inspire" }
+  let(:date) { "2019-03-02" }
 
   let(:qod_response) do
-    '{
-        "success": {
-            "total": 1
+    {
+        'success': {
+            'total': 1
         },
-        "contents": {
-            "quotes": [
+        'contents': {
+            'quotes': [
                 {
-                    "quote": "The things you learn in maturity aren’t simple things such as acquiring information and skills. You learn not to engage in self-destructive behavior. You learn not to burn up energy in anxiety. You discover how to manage your tensions. You learn that self-pity and resentment are among the most toxic of drugs. You find that the world loves talent but pays off on character.",
-                    "author": "John Gardner",
-                    "length": "381",
-                    "tags": [
-                        "character",
-                        "inspire",
-                        "maturity",
-                        "tso-life",
-                        "tso-management"
-                    ],
-                    "category": "inspire",
-                    "title": "Inspiring Quote of the day",
-                    "date": "2019-03-02",
-                    "id": "1"
+                    'quote': qod,
+                    'author': author,
+                    'length': length,
+                    'tags': tags,
+                    'category': qod_category,
+                    'title': 'Inspiring Quote of the day',
+                    'date': date,
+                    'id': '1'
                 }
             ],
-            "copyright": "2017-19 theysaidso.com"
+            'copyright': '2017-19 theysaidso.com'
         }
-    }'
+    }
   end
 
   let(:categories_hash) do
@@ -50,10 +51,8 @@ RSpec.describe Theysaidsocli do
     }
   end
 
-  let(:author) { "John Gardner" }
-
   let(:categories_response) do
-    '{
+    {
         "success": {
             "total": 8
         },
@@ -70,7 +69,7 @@ RSpec.describe Theysaidsocli do
             },
             "copyright": "2017-19 http://theysaidso.com"
         }
-    }'
+    }
   end
 
   it "has a version number" do
@@ -84,12 +83,24 @@ RSpec.describe Theysaidsocli do
 
     it "prints the quote of the day" do
       expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL).and_return(http_party_response)
-      expect(quote_fetcher.qod).to eq([qod, author])
+      quote = quote_fetcher.qod
+      expect(quote.quote).to eq(qod)
+      expect(quote.author).to eq(author)
+      expect(quote.category).to eq(qod_category)
+      expect(quote.date).to eq(date)
+      expect(quote.tags).to eq(tags)
+      expect(quote.length).to eq(length)
     end
 
     it "prints the qod for a given category" do
       expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL+"?category=#{category}").and_return(http_party_response)
-      expect(quote_fetcher.qod(category)).to eq([qod, author])
+      quote = quote_fetcher.qod(category)
+      expect(quote.quote).to eq(qod)
+      expect(quote.author).to eq(author)
+      expect(quote.category).to eq(qod_category)
+      expect(quote.date).to eq(date)
+      expect(quote.tags).to eq(tags)
+      expect(quote.length).to eq(length)
     end
   end
 
