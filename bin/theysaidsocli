@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require "theysaidsocli"
 
-ct = Theysaidsocli::QuoteFetcher.new
+quote_fetcher = Theysaidsocli::QuoteFetcher.new
 
 entered_ARGV = ARGV.length > 0;
 
@@ -15,7 +15,7 @@ end
 
 begin
     unless entered_ARGV
-        qod = ct.qod
+        qod = quote_fetcher.qod
         print_quote(qod)
         return
     end
@@ -31,23 +31,22 @@ begin
         when "-cat"
 
             if ARGV[1]
-                qod = ct.qod(ARGV[1])
+                qod = quote_fetcher.qod(ARGV[1])
                 print_quote(qod)
                 return
             end
 
-            categories = ct.categories
+            categories = quote_fetcher.categories
             puts "Available categories:"
-
-            categories.each do |key, value|
-                puts "#{key}: '#{value}'"
+            categories.each { |c| puts c.to_s }
+        else
+            puts "Unknown option. Use theysaidsocli -h for help."
         end
-    end
 
 rescue Theysaidsocli::RateLimitError
     puts "You are making too many requests... Try again in an hour."
 rescue Theysaidsocli::NotFoundError
-    puts "No results were found with the terms used. Try again with a different term.."
+    puts "No results were found with the term used. Try again with a different term.."
 end
 
 

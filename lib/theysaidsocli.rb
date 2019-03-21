@@ -1,6 +1,7 @@
 require_relative "theysaidsocli/version"
 require_relative "quote"
 require_relative "response"
+require_relative "category"
 require "httparty"
 
 module Theysaidsocli
@@ -21,7 +22,11 @@ module Theysaidsocli
       raise RateLimitError if response.rate_limited?
       raise NotFoundError unless response.success?
 
-      response.content[:categories]
+      categories = []
+      response.content[:categories].each do |key, value|
+        categories << Category.new(key, value)
+      end
+      categories
     end
 
     def qod(category = nil)

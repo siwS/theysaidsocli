@@ -51,22 +51,26 @@ RSpec.describe Theysaidsocli do
     }
   end
 
+  let(:categories_hash) do
+    {
+        "inspire": "Inspiring Quote of the day",
+        "management": "Management Quote of the day",
+        "sports": "Sports Quote of the day",
+        "life": "Quote of the day about life",
+        "funny": "Funny Quote of the day",
+        "love": "Quote of the day about Love",
+        "art": "Art quote of the day ",
+        "students": "Quote of the day for students"
+    }
+  end
+
   let(:categories_response) do
     {
         "success": {
             "total": 8
         },
         "contents": {
-            "categories": {
-                "inspire": "Inspiring Quote of the day",
-                "management": "Management Quote of the day",
-                "sports": "Sports Quote of the day",
-                "life": "Quote of the day about life",
-                "funny": "Funny Quote of the day",
-                "love": "Quote of the day about Love",
-                "art": "Art quote of the day ",
-                "students": "Quote of the day for students"
-            },
+            "categories": categories_hash,
             "copyright": "2017-19 http://theysaidso.com"
         }
     }
@@ -126,7 +130,11 @@ RSpec.describe Theysaidsocli do
 
     it "returns the category hash" do
       expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::CATEGORIES_URL).and_return(http_party_response)
-      expect(quote_fetcher.categories).to eq(categories_hash)
+      categories = quote_fetcher.categories
+      expect(categories.size).to eq(8)
+      categories.each do |category|
+        expect(category.description).to eq(categories_hash[category.key])
+      end
     end
   end
 
