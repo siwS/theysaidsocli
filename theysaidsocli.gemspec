@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'httparty'
   spec.add_runtime_dependency 'hirb'
-  
+
   spec.add_development_dependency 'httparty'
   spec.add_development_dependency 'hirb'
   spec.add_development_dependency "bundler", "~> 1.17"
