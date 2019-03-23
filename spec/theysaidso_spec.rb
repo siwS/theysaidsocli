@@ -1,9 +1,9 @@
 require "httparty"
-require_relative "../lib/theysaidsocli"
+require_relative "../lib/theysaidso"
 
-RSpec.describe Theysaidsocli do
+RSpec.describe QuoteFetcher do
 
-  let(:quote_fetcher) { Theysaidsocli::QuoteFetcher.new }
+  let(:quote_fetcher) { QuoteFetcher.new }
   let(:qod) { "The things you learn in maturity aren’t simple things such as acquiring information and skills. You learn not to engage in self-destructive behavior. You learn not to burn up energy in anxiety. You discover how to manage your tensions. You learn that self-pity and resentment are among the most toxic of drugs. You find that the world loves talent but pays off on character." }
 
   let(:response_body) {  double("Response", code: code) }
@@ -77,7 +77,7 @@ RSpec.describe Theysaidsocli do
   end
 
   it "has a version number" do
-    expect(Theysaidsocli::VERSION).not_to be nil
+    expect(Theysaidso::VERSION).not_to be nil
   end
 
   context "with qod successful response" do
@@ -86,7 +86,7 @@ RSpec.describe Theysaidsocli do
     let(:category) { "life" }
 
     it "prints the quote of the day" do
-      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL).and_return(http_party_response)
+      expect(HTTParty).to receive(:get).with(QuoteFetcher::QOD_URL).and_return(http_party_response)
       quote = quote_fetcher.qod
       expect(quote.quote).to eq(qod)
       expect(quote.author).to eq(author)
@@ -97,7 +97,7 @@ RSpec.describe Theysaidsocli do
     end
 
     it "prints the qod for a given category" do
-      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL+"?category=#{category}").and_return(http_party_response)
+      expect(HTTParty).to receive(:get).with(QuoteFetcher::QOD_URL+"?category=#{category}").and_return(http_party_response)
       quote = quote_fetcher.qod(category)
       expect(quote.quote).to eq(qod)
       expect(quote.author).to eq(author)
@@ -114,13 +114,13 @@ RSpec.describe Theysaidsocli do
     let(:category) { "life" }
 
     it "with rate limit it raises appropriate error" do
-      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL).and_return(http_party_response)
-      expect{ quote_fetcher.qod }.to raise_error(Theysaidsocli::RateLimitError)
+      expect(HTTParty).to receive(:get).with(QuoteFetcher::QOD_URL).and_return(http_party_response)
+      expect{ quote_fetcher.qod }.to raise_error(RateLimitError)
     end
 
     it "with rate limit it raises appropriate error" do
-      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL+"?category=#{category}").and_return(http_party_response)
-      expect{ quote_fetcher.qod(category) }.to raise_error(Theysaidsocli::RateLimitError)
+      expect(HTTParty).to receive(:get).with(QuoteFetcher::QOD_URL+"?category=#{category}").and_return(http_party_response)
+      expect{ quote_fetcher.qod(category) }.to raise_error(RateLimitError)
     end
   end
 
@@ -129,7 +129,7 @@ RSpec.describe Theysaidsocli do
     let(:string_response) { categories_response }
 
     it "returns the category hash" do
-      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::CATEGORIES_URL).and_return(http_party_response)
+      expect(HTTParty).to receive(:get).with(QuoteFetcher::CATEGORIES_URL).and_return(http_party_response)
       categories = quote_fetcher.categories
       expect(categories.size).to eq(8)
       categories.each do |category|
@@ -143,8 +143,8 @@ RSpec.describe Theysaidsocli do
     let(:string_response) { categories_response }
 
     it "with rate limit it raises appropriate error" do
-      expect(HTTParty).to receive(:get).with(Theysaidsocli::QuoteFetcher::QOD_URL).and_return(http_party_response)
-      expect{ quote_fetcher.qod }.to raise_error(Theysaidsocli::RateLimitError)
+      expect(HTTParty).to receive(:get).with(QuoteFetcher::QOD_URL).and_return(http_party_response)
+      expect{ quote_fetcher.qod }.to raise_error(RateLimitError)
     end
   end
 end

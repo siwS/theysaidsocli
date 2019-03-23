@@ -1,22 +1,15 @@
 #!/usr/bin/env ruby
-require "theysaidsocli"
+require "theysaidso"
+require "quote_terminal_printer"
 
-quote_fetcher = Theysaidsocli::QuoteFetcher.new
+quote_fetcher = QuoteFetcher.new
 
 entered_ARGV = ARGV.length > 0;
-
-def print_quote(qod)
-    print_text = "#{qod.author} said: #{qod.quote}"
-
-    puts "*" * (print_text.size + 4)
-    puts "| #{print_text} |"
-    puts "*" * (print_text.size + 4)
-end
 
 begin
     unless entered_ARGV
         qod = quote_fetcher.qod
-        print_quote(qod)
+        QuoteTerminalPrinter.new(qod).print
         return
     end
 
@@ -32,7 +25,7 @@ begin
 
             if ARGV[1]
                 qod = quote_fetcher.qod(ARGV[1])
-                print_quote(qod)
+                QuoteTerminalPrinter.new(qod).print
                 return
             end
 
@@ -40,12 +33,12 @@ begin
             puts "Available categories:"
             categories.each { |c| puts c.to_s }
         else
-            puts "Unknown option. Use theysaidsocli -h for help."
+            puts "Unknown option. Use theysaidso -h for help."
         end
 
-rescue Theysaidsocli::RateLimitError
+rescue RateLimitError
     puts "You are making too many requests... Try again in an hour."
-rescue Theysaidsocli::NotFoundError
+rescue NotFoundError
     puts "No results were found with the term used. Try again with a different term.."
 end
 

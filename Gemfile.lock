@@ -1,12 +1,13 @@
 PATH
   remote: .
   specs:
-    theysaidsocli (0.1.0)
+    theysaidso (0.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.3)
+    hirb (0.7.3)
     httparty (0.16.4)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
@@ -34,10 +35,11 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.17)
+  hirb
   httparty
   rake (~> 10.0)
   rspec (~> 3.0)
-  theysaidsocli!
+  theysaidso!
 
 BUNDLED WITH
    1.17.1
