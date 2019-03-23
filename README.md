@@ -9,27 +9,17 @@ If you need some inspiration during your day, just pick your daily quote from yo
 
 ## Installation
 
-Add this line to your application's Gemfile:
+You can install by running:
 
-```ruby
-gem 'theysaidsocli'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install theysaidso
+    $ gem install theysaidsocli
 
 ## Usage
 
 You can run in your command line:
 
-- `theysaidso` : gets you the Quote of the day!
-- `Theysaidsocli-cat` : gets you all the available quote categories
-- `Theysaidsocli-cat life` : gets you a quote from the "life" category
+- `theysaidsocli` : gets you the Quote of the day!
+- `Theysaidsocli -cat` : gets you all the available quote categories
+- `Theysaidsocli -cat life` : gets you a quote from the "life" category
 
 
 ### TODO:
