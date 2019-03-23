@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require "theysaidsocli"
 require "quote_terminal_printer"
+require "theysaidsocli/version"
 
 quote_fetcher = QuoteFetcher.new
 
@@ -15,10 +16,13 @@ begin
 
     case ARGV[0]
 
+        when "-v"
+            puts Theysaidsocli::VERSION
         when "-h"
             puts "Hello! Welcome to the help menu of the TheySaySo cli."
+            puts "  -v         | Get version"
             puts "             | Get the quote of the day"
-            puts "  -cat       | Get quote categories"
+            puts "  -cat       | Get all categories"
             puts "  -cat <Cat> | Pick a quote from a specific category"
             exit
         when "-cat"
