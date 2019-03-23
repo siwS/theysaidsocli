@@ -13,6 +13,8 @@ RSpec.describe QuoteFetcher do
   let(:length) { "381" }
   let(:tags) { %w[ character, inspire, maturity ] }
   let(:qod_category) { "inspire" }
+  let(:qod_category_with_invalid_chars) { "l/i.f>e<!" }
+
   let(:date) { "2019-03-02" }
 
   let(:qod_response) do
@@ -105,6 +107,11 @@ RSpec.describe QuoteFetcher do
       expect(quote.date).to eq(date)
       expect(quote.tags).to eq(tags)
       expect(quote.length).to eq(length)
+    end
+
+    it "cleans up the string if contains special characters" do
+      expect(HTTParty).to receive(:get).with(QuoteFetcher::QOD_URL+"?category=#{category}").and_return(http_party_response)
+      quote_fetcher.qod(qod_category_with_invalid_chars)
     end
   end
 

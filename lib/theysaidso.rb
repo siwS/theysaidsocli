@@ -28,7 +28,8 @@ class QuoteFetcher
   end
 
   def qod(category = nil)
-    qod_response = HTTParty.get(category ? "#{QOD_URL_WITH_CATEGORY}#{category}" : QOD_URL)
+    sanitized_category = sanitize_input(category)
+    qod_response = HTTParty.get(sanitized_category ? "#{QOD_URL_WITH_CATEGORY}#{sanitized_category}" : QOD_URL)
 
     response = Response.new(qod_response)
     raise RateLimitError if response.rate_limited?
@@ -36,4 +37,12 @@ class QuoteFetcher
 
     Quote.new(response.content[:quotes][0])
   end
+
+  private
+
+  def sanitize_input(category)
+    return nil if category.nil?
+    category.gsub(/[^0-9A-Za-z]/,'')
+  end
+
 end
