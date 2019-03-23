@@ -4,7 +4,7 @@ Powered by:
 <span style="z-index:50;font-size:0.9em;"><img src="https://theysaidso.com/branding/theysaidso.png" height="20" width="20" alt="theysaidso.com"/><a href="https://theysaidso.com" title="Powered by quotes from theysaidso.com" style="color: #9fcc25; margin-left: 4px; vertical-align: middle;">theysaidso.com</a></span>
 
 
-This is a simple CLI gem to get quotes from the TheySaidSo API.
+This is a simple CLI gem to get quotes from the TheysaidsocliAPI.
 If you need some inspiration during your day, just pick your daily quote from your command line!
 
 ## Installation
@@ -12,7 +12,7 @@ If you need some inspiration during your day, just pick your daily quote from yo
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'theysaidso'
+gem 'theysaidsocli'
 ```
 
 And then execute:
@@ -28,8 +28,8 @@ Or install it yourself as:
 You can run in your command line:
 
 - `theysaidso` : gets you the Quote of the day!
-- `theysaidso -cat` : gets you all the available quote categories
-- `theysaidso -cat life` : gets you a quote from the "life" category
+- `Theysaidsocli-cat` : gets you all the available quote categories
+- `Theysaidsocli-cat life` : gets you a quote from the "life" category
 
 
 ### TODO:
@@ -53,6 +53,6 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the theysaidso project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/theysaidso/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Theysaidsocliproject’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/theysaidso/blob/master/CODE_OF_CONDUCT.md).
 
 

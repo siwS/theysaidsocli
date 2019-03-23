@@ -1,4 +1,4 @@
-require_relative "theysaidso/version"
+require_relative "theysaidsocli/version"
 require_relative "quote"
 require_relative "response"
 require_relative "category"

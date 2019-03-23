@@ -1,25 +1,25 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "theysaidso/version"
+require "theysaidsocli/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "theysaidso"
-  spec.version       = Theysaidso::VERSION
+  spec.name          = "theysaidsocli"
+  spec.version       = Theysaidsocli::VERSION
   spec.authors       = ["@Sofia"]
   spec.email         = ["tzi.sof@gmail.com\n\n\n"]
 
   spec.summary       = %q{CLI tool to give you random quotes.}
-  spec.description   = %q{Gets you random quotes from the TheySaidSo API.}
-  spec.homepage      = "https://github.com/siwS/theysaidso"
+  spec.description   = %q{Gets you random quotes from the TheysaidsocliAPI.}
+  spec.homepage      = "https://github.com/siwS/theysaidsocli"
   spec.license       = "MIT"
 
   if spec.respond_to?(:metadata)
     spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "https://github.com/siwS/theysaidso"
-    spec.metadata["changelog_uri"] = "https://github.com/siwS/theysaidso"
+    spec.metadata["source_code_uri"] = "https://github.com/siwS/theysaidsocli"
+    spec.metadata["changelog_uri"] = "https://github.com/siwS/theysaidsocli"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   end
-  spec.executables   = ["theysaidso"]
+  spec.executables   = ["theysaidsocli"]
   spec.require_paths = ["lib"]
   spec.bindir        = "bin"
 

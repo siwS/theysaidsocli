@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require "theysaidso"
+require "theysaidsocli"
 require "quote_terminal_printer"
 
 quote_fetcher = QuoteFetcher.new
@@ -33,7 +33,7 @@ begin
             puts "Available categories:"
             categories.each { |c| puts c.to_s }
         else
-            puts "Unknown option. Use theysaidso -h for help."
+            puts "Unknown option. Use theysaidsocli -h for help."
         end
 
 rescue RateLimitError

@@ -1,5 +1,5 @@
 require "httparty"
-require_relative "../lib/theysaidso"
+require_relative "../lib/theysaidsocli"
 
 RSpec.describe QuoteFetcher do
 
@@ -35,7 +35,7 @@ RSpec.describe QuoteFetcher do
                     'id': '1'
                 }
             ],
-            'copyright': '2017-19 theysaidso.com'
+            'copyright': '2017-19 theysaidsocli.com'
         }
     }
   end
@@ -73,7 +73,7 @@ RSpec.describe QuoteFetcher do
         },
         "contents": {
             "categories": categories_hash,
-            "copyright": "2017-19 http://theysaidso.com"
+            "copyright": "2017-19 http://theysaidsocli.com"
         }
     }
   end
