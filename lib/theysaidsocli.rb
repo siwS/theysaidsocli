@@ -20,11 +20,7 @@ class QuoteFetcher
     raise RateLimitError if response.rate_limited?
     raise NotFoundError unless response.success?
 
-    categories = []
-    response.content[:categories].each do |key, value|
-      categories << Category.new(key, value)
-    end
-    categories
+    categories.content[:categories].map { |k, v| Category.new(k, v) }
   end
 
   def qod(category = nil)
