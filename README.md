@@ -4,7 +4,7 @@ Powered by:
 <span style="z-index:50;font-size:0.9em;"><img src="https://theysaidso.com/branding/theysaidso.png" height="20" width="20" alt="theysaidso.com"/><a href="https://theysaidso.com" title="Powered by quotes from theysaidso.com" style="color: #9fcc25; margin-left: 4px; vertical-align: middle;">theysaidso.com</a></span>
 
 
-This is a simple CLI gem to get quotes from the TheysaidsocliAPI.
+This is a simple CLI gem to get quotes from the [theysaidso](https://theysaidso.com/api/) API.
 If you need some inspiration during your day, just pick your daily quote from your command line!
 
 ## Installation
@@ -24,7 +24,7 @@ You can run in your command line:
 
 ### TODO:
 
-The API is rate-limited so with the free version you can make 10requests per hour.
+The API is rate-limited so with the free version you can make 10 requests per hour.
 I doubt people will need more than that in a CLI, but I will implement at some point passing an API key to get unlimited quotes
 
 ## Development
