@@ -24,14 +24,16 @@ You can run in your command line:
 
 ### TODO:
 
-The API is rate-limited so with the free version you can make 10 requests per hour.
-I doubt people will need more than that in a CLI, but I will implement at some point passing an API key to get unlimited quotes
+- [ ] The [theysaidso](https://theysaidso.com/api/) API is rate-limited. With the free version you can only make 10 requests per hour. I need to implement passing an API key to get unlimited quotes.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+1. Checking out the repo
+2. Run `bin/setup` to install dependencies. 
+3. Then, using `rake spec` you can run the tests. 
+4. You can also run `bin/console` for an interactive prompt.
+5. To install the gem on your local machine, run `bundle exec rake install`. 
+6. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`. This will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
